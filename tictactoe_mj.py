@@ -75,8 +75,6 @@ def play(game_status, x_or_o, coordinate):
     else:
         raise ValueError(f'x_or_o should be one of X or O, now got {x_or_o}.')
 
-
-
 def check_winlose(game_status):
     """Check the game status; game status should be one of 'X wins', 'O wins', 'tie', 'not decided'. 
     """
@@ -113,7 +111,6 @@ def check_winlose(game_status):
         return 'tie'
     else:   
         return 'undecided'
-
     
 def display(game_status, x_size = 3, y_size = 3, x_cell_size = 7, y_cell_size = 3):
     """Display the current snapshot of the board. 
@@ -164,4 +161,3 @@ def display(game_status, x_size = 3, y_size = 3, x_cell_size = 7, y_cell_size = 
                     else: print('|'+' '*x_cell_size, end = '')
                 else: print('|'+' '*x_cell_size, end = '')
             print('|')
-    print(hline)
