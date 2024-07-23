@@ -161,3 +161,4 @@ def display(game_status, x_size = 3, y_size = 3, x_cell_size = 7, y_cell_size = 
                     else: print('|'+' '*x_cell_size, end = '')
                 else: print('|'+' '*x_cell_size, end = '')
             print('|')
+    print(hline)
