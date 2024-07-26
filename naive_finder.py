@@ -52,3 +52,4 @@ if __name__ == '__main__':
     print(naive_finder(updown_game_medium, list(range(max_num + 1))))
     end = time()
 
+    print(end - begin)

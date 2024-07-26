@@ -72,9 +72,8 @@ def play(game_status, x_or_o, coordinate):
     elif x_or_o == 'O':
         game_status['o_positions'].append(coordinate)   
     
-    else : return ''X'or'O''
-
-
+    else:
+        raise ValueError(f'x_or_o should be one of X or O, now got {x_or_o}.')
 
 def check_winlose(game_status):
     """Check the game status; game status should be one of 'X wins', 'O wins', 'tie', 'not decided'. 
@@ -88,11 +87,11 @@ def check_winlose(game_status):
         [(2,0),(1,1),(0,2)],
         [(2,0),(2,1),(2,2)],
         [(0,1),(1,1),(2,1)],
-        [(0,2),(1,2),(2,2)]
+        [(0,2),(1,2),(2,2)],
     ]
     def determine_if_x_wins(game_status, winning_positions):
        for win in winning_positions:
-            a,b,c = win
+            a,b,c = win # 이름에다 값을 넣는거다!! 
             if a in x_pos and b in x_pos and c in x_pos:
                 return True
             return False
@@ -108,11 +107,10 @@ def check_winlose(game_status):
         return 'X wins'
     elif determine_if_o_wins(game_status, winning_positions):
         return 'O wins'       
-    elif: len(x_pos) + len(o_pos) == 9:
+    elif len(x_pos) + len(o_pos) == 9:
         return 'tie'
     else:   
         return 'undecided'
-
     
 def display(game_status, x_size = 3, y_size = 3, x_cell_size = 7, y_cell_size = 3):
     """Display the current snapshot of the board. 
