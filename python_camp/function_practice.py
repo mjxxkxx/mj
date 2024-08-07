@@ -10,42 +10,113 @@ import random
 def my_max(lst, cmp=lambda x, y: x):
     max_elem = lst[0]                      
     for x, y in lst[1:]:                   
-        if cmp((max_elem,), (x, y)) == (x, y): 
+        if cmp(max_elem,(x,y)) == (x, y): 
             max_elem = (x, y)
     return max_elem 
 
 l = [(1,2), (3,4), (5,-3), (2,-5)] 
 my_max(l, cmp = lambda x, y: x if sum(x) > sum(y) else y)
-# my_max(l, cmp = lambda x, y: x if x[0] > y[0] else y)
+my_max(l, cmp = lambda x, y: x if x[0] > y[0] else y)
 
 def my_min(lst, cmp = lambda x, y: x):
+    min_elem = lst[0]                      
+    # for x, y in lst[1:]:                   
+    #     if cmp(min_elem,(x,y)) == (x, y): 
+    #         min_elem = (x, y)
+    for e in lst[1:]:                   
+        if cmp(min_elem, e) == min_elem: 
+            min_elem = e
+    return min_elem
 
-    return min_item
+my_min(l, cmp = lambda x, y: x if x[0] > y[0] else y)
 
 # --------------------------------------------
 # 2. sort 구현하기 
 # 
 # 1) 그냥 순서대로 오름차순으로 정렬하기 
-# 2) 오름차순, 내림차순으로 정렬하기 
-# 3) 주어진 기준 cmp에 맞춰서 오름차순, 내림차순으로 정렬하기 
-# 4) 주어진 기준 cmp가 큰 element를 출력하거나, 같다는 결과를 출력하게 만들기 
-# 5) cmp상 같은 경우 tie-breaking하는 함수 넣기 
-# --------------------------------------------
+# 나
+def find_insert_index(res, e):
+    for idx, elem in enumerate(res):
+        if elem >= e:
+            return idx 
+    return len(res)
 
 def sort1(lst):
-    return sorted(lst)
+    first_elem = lst[0]
+    res = []
+    res.append(first_elem)
+    
+    for e in lst[1:]:
+        idx = find_insert_index(res, e)
+        res.insert(idx, e)
 
+    return res
+
+# 쌤
+def sort1(lst):
+    res = []
+    n = len(lst)
+    while len(res) < n:
+        res.append(my_min(lst))
+        lst.remove(my_min(lst))
+    return res 
+
+# 태진
+def sort1(lst):
+    n = len(lst)
+    for i in range(n):
+      for j in range(0,n-i-1):
+        if lst[j] > lst[j+1]:
+          lst[j], lst[j+1] = lst[j+1], lst[j]
+
+    print(lst)
+
+# 2) 오름차순, 내림차순으로 정렬하기 
 def sort2(lst, upper_to_lower = True):
-    pass 
+    res = []
+    n = len(lst)
+    while len(res) < n:
+        if not upper_to_lower:
+            res.append(my_max(lst))
+        else:
+            res.left_append(my_max(lst))
+        lst.remove(my_max(lst))
+    return res
+
+# 3) 주어진 기준 cmp에 맞춰서 오름차순, 내림차순으로 정렬하기 
+def left_append(lst, elem):
+    lst.insert(0,elem)
+    return lst
 
 def sort3(lst, upper_to_lower = True, cmp = lambda x, y: x):
-    pass 
+    res = []
+    n = len(lst)
+    while len(res) < n:
+        if not upper_to_lower:
+            res.append(my_max(lst), cmp=cmp)
+        else:
+            left_append(res, my_max(lst))
+        lst.remove(my_max(lst))
+    return res
 
+# 4) 주어진 기준 cmp가 큰 element를 출력하거나, 같다는 결과를 출력하게 만들기 
 def sort4(lst, upper_to_lower = True, cmp = lambda x, y: x):
-    pass 
+    max_elem = lst[0]                      
+    for e in lst[1:]:                   
+        if cmp(max_elem, e) == e: 
+            max_elem = e
+            return max_elem
+        elif cmp(max_elem, e) == e == max_elem:
+            return 'same value'
 
+# 5) cmp상 같은 경우 tie-breaking하는 함수 넣기 
 def sort5(lst, upper_to_lower = True, cmp = lambda x, y: x, tie_breaker = lambda x, y: random.choice([x,y])):
-    pass 
+    max_elem = lst[0]                      
+    for e in lst[1:]:                   
+        if cmp(max_elem, e) == e == max_elem: 
+
+
+lst = [(1, 3), (2, 4), (2,5), (3, 10), (3,5)]
 
 
 
