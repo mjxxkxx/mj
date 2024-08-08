@@ -73,8 +73,61 @@ def pyramid3(n):
 # --------------------------------------------
 
 # write your code here 
-def pyramid4(n):
-    pass
+def pascal(n):
+    def generate_next_line(last_line):
+        n = len(last_line) + 1
+        
+        next_line = [last_line[0]]
+
+        for i in range(n-2):
+            next_line.append(last_line[i] + last_line[i+1])
+
+        next_line.append(last_line[n-2])
+
+        return next_line
+    
+    lines = [[1], [1,1]]
+    
+    while len(lines) != n:
+        lines.append(generate_next_line(lines[-1]))
+
+    space = ' '
+
+    def fill(number, digits, fill_with = '0'):
+        number_digit = get_digit(number)
+        return (digits - number_digit) * fill_with + str(number)
+
+    def get_digit(number):
+        # int(log_10(n))
+        # 123 
+        digit = 1
+        
+        while True:
+            if number < 10:
+                break 
+            else:
+                digit += 1 
+                number = number // 10 
+        
+        return digit 
+
+    # print(fill(123, 4)) # 0123
+    # print(fill(123, 5)) # 00123
+    # print(fill(123, 4, '|')) # |123
+
+    max_number = max(lines[-1])
+    max_digit = get_digit(max_number)
+
+    space = ' ' * max_digit
+
+    for idx, line in enumerate(lines):
+        print((n-1-idx)*space + space.join([\
+            fill(e, max_digit, ' ') for e in line]))
+    
+    return lines 
+
+for line in pascal(12):
+    print(line)
 
 # --------------------------------------------
 # 5) 다음 패턴을 찍는 함수 sierpinski_triangle을 짜 보세요. 
@@ -109,7 +162,61 @@ def pyramid4(n):
 # --------------------------------------------
 
 # write your code here 
+def triangle():
+    lines = [\
+      '   *    ',
+      '  * *   ',
+      ' *   *  ',
+      '* * * * ',
+    ]
+    return lines 
 
+def lstsum(l, r):
+    assert len(l) == len(r)
+    
+    res = []
+    for i in range(len(l)):
+        res.append(l[i] + r[i])
+
+    return [(a+b) for a, b in zip(l, r)]
+
+def big_triangle():
+    res = []
+    res += [' ' * 4 + line + ' ' * 4 for line in triangle()]
+    
+    res += lstsum(triangle(), triangle())
+    
+    return res 
+
+# print('\n'.join(big_triangle()).replace(' ', '0'))
+
+def big_big_triangle():
+    res = []
+    res += [' ' * 8 + line for line in big_triangle()]
+    
+    res += lstsum(big_triangle(), big_triangle())
+    
+    return res 
+
+# print('\n'.join(big_big_triangle()))
+
+def sierpinski_triangle_list(n):
+    if n == 1:
+        return triangle()
+    else:
+        res = [' '*2**n + line + ' '*2**n for line in sierpinski_triangle_list(n-1)]
+        res += lstsum(sierpinski_triangle_list(n-1), sierpinski_triangle_list(n-1))
+        return res 
+
+def sierpinski_triangle(n):
+    return '\n'.join(sierpinski_triangle_list(n))
+
+print(sierpinski_triangle(1))
+print(sierpinski_triangle(2))
+print(sierpinski_triangle(3))
+print(sierpinski_triangle(4))
+
+#-------------------------------------------------------------------
   def triangle(n):
     width = 4 * 2**n
     half_of_width = 2*2**n
